@@ -1,0 +1,10 @@
+package com.example.home.fegin;
+
+import org.springframework.cloud.openfeign.FeignClient;
+
+@FeignClient("PRODUCT-SERVICE")
+public interface HomeInterface {
+	
+	public String homepage() 
+
+}

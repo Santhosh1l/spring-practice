@@ -1,0 +1,28 @@
+package com.example.home.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.home.fegin.HomeInterface;
+
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
+
+@RestController
+public class HomeController {
+	
+	@Autowired
+	HomeInterface homeInterface;
+	
+	@GetMapping("/home")
+	@Retry(name = "productservice")
+	@CircuitBreaker(name="PRODUCT-SERVICE",fallbackMethod = "homepages")
+	public String homepage() {
+		return homeInterface.products();
+	}
+@GetMapping
+public String homepages(Throwable t) {
+	return "home";
+}
+}
